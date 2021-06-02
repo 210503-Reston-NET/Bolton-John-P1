@@ -2,12 +2,4 @@
 
 working functions:
 
-*Add a new customer<br />*Search customers by name
-*Display details of an order
-*Place orders to store locations for customers
-*View order history of customer
-*View order history of location
-*View location inventory
-*The customer should be able to purchase multiple products
-*Order histories should have the option to be sorted by date (latest to oldest and vice versa) or cost (least expensive to most expensive)
-*The manager should be able to replenish inventory
+*Add a new customer<br />*Search customers by name<br />*Display details of an order<br />*Place orders to store locations for customers<br />*View order history of customer<br />*View order history of location<br />*View location inventory<br />*The customer should be able to purchase multiple products<br />*Order histories <br />*The manager should be able to replenish inventory
