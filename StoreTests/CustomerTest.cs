@@ -8,7 +8,7 @@ namespace StoreTests
         public void CustomerShouldSetValidData()
         {
             string firstName = "JOHN";
-            Customer test = new Customer("firstName", "lastName", "phone#", "email");
+            Customer test = new Customer("firstName", "lastName", "phone", "email");
 
             test.FirstName = firstName;
 
@@ -55,7 +55,7 @@ namespace StoreTests
         public void PriceShouldsetValidData()
         {
             double price = 5.99;
-            Product test = new Product("name", 1.99, "description");
+            Product test = new Product("name", 5.99, "description");
 
             test.Price = price;
 
