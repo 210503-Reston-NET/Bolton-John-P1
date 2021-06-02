@@ -1,0 +1,63 @@
+@model IEnumerable<StoreWebUI.Models.OrderVM>
+@{ int i = 0;}
+@{ ViewData["Title"] = "View Orders"; }
+
+<h1>View Orders</h1>
+
+<form asp-action="ViewOrders">
+    <div class="form-group">
+        <input type="submit" name="sort" value="Sort By Cost" class="btn btn-info" id="submitId" />
+        <input type="submit" name="sort" value="Sort By Date Ascending" class="btn btn-info" id="submitId" />
+        <input type="submit" name="sort" value="Sort By Date Descending" class="btn btn-info" id="submitId" />
+    </div>
+</form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.OrderID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CustomerID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LocationID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Total)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OrderDate)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            string customerSelector = "customer" + i;
+            string storeSelector = "location" + i;
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.OrderID)
+    </td>
+    <td>
+        @ViewData[customerSelector]
+    </td>
+    <td>
+        @ViewData[storeSelector]
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Total)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.OrderDate)
+    </td>
+</tr>}
+    </tbody>
+</table>
+
+<div>
+    <a asp-controller="Customer" asp-action="List">Back to List</a>
+</div>

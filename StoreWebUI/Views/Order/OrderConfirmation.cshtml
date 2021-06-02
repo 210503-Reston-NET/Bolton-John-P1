@@ -1,0 +1,51 @@
+@model StoreWebUI.Models.OrderVM
+
+@{
+    ViewData["Title"] = "OrderConfirmation";
+}
+
+<h1>Order Confirmation</h1>
+
+<div>
+    <h4>Order</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.OrderID)
+        </dt>
+        <dd class="col-sm-10">
+            @ViewData["OrderID"]
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.OrderDate)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.OrderDate)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.CustomerID)
+        </dt>
+        <dd class="col-sm-10">
+            @ViewData["Customer"]
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.LocationID)
+        </dt>
+        <dd class="col-sm-10">
+            @ViewData["Location"]
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Total)
+        </dt>
+        <dd class="col-sm-10">
+            @ViewData["Total"]
+        </dd>
+    </dl>
+    <p>Would you like to proceed?</p>
+    <form asp-action="OrderConfirmation">
+        <div class="form-group">
+            <input type="submit" name="confirm" value="Place Order" class="btn btn-success" id="submitId" onclick="Order/OrderConfirmation.href='@Url.Action("OrderConfirmation", "Order")'" />
+            <input type="submit" name="confirm" value="Cancel Order" class="btn btn-danger" id="submitId" onclick="Order/OrderConfirmation.href='@Url.Action("OrderConfirmation", "Order")'" />
+        </div>
+    </form>
+</div>

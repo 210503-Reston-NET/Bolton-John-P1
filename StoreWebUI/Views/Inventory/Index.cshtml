@@ -1,0 +1,45 @@
+@model IEnumerable<StoreWebUI.Models.InventoryVM>
+
+@{ ViewData["Title"] = "Index"; }
+
+<h1>List of Store Inventory</h1>
+
+<p>
+    <a asp-action="Create">Create New Inventory</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Store Location
+            </th>
+            <th>
+                Product
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Quantity)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            @{ string locationID = "location" + item.LocationID.ToString();}
+            @{ string productID = "product" + item.ProductID.ToString();}
+            <td>
+                @ViewData[locationID]
+            </td>
+            <td>
+                @ViewData[productID]
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Quantity)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.InventoryID })
+            </td>
+        </tr>}
+    </tbody>
+</table>

@@ -1,0 +1,29 @@
+@model StoreWebUI.Models.LocationVM
+
+@{
+    ViewData["Title"] = "Location";
+}
+
+<h1>Start An Order</h1>
+
+<h4>Enter Location</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Location">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="StoreName" class="control-label"></label>
+                <input asp-for="StoreName" class="form-control" id="storeName" />
+                <span asp-validation-for="StoreName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Continue" class="btn btn-primary" id="submitId" />
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
