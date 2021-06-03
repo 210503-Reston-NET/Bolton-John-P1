@@ -1,4 +1,4 @@
-@model StoreWebUI.Models.OrderVM
+@model OrderVM
 
 @{
     ViewData["Title"] = "OrderConfirmation";
@@ -8,7 +8,7 @@
 
 <div>
     <h4>Order</h4>
-    <hr />
+    <hr/>
     <dl class="row">
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.OrderID)
@@ -44,8 +44,8 @@
     <p>Would you like to proceed?</p>
     <form asp-action="OrderConfirmation">
         <div class="form-group">
-            <input type="submit" name="confirm" value="Place Order" class="btn btn-success" id="submitId" onclick="Order/OrderConfirmation.href='@Url.Action("OrderConfirmation", "Order")'" />
-            <input type="submit" name="confirm" value="Cancel Order" class="btn btn-danger" id="submitId" onclick="Order/OrderConfirmation.href='@Url.Action("OrderConfirmation", "Order")'" />
+            <input type="submit" name="confirm" value="Place Order" class="btn btn-success" id="submitId" onclick="Order / OrderConfirmation.href = '@Url.Action("OrderConfirmation", "Order")'"/>
+            <input type="submit" name="confirm" value="Cancel Order" class="btn btn-danger" id="submitId" onclick="Order / OrderConfirmation.href = '@Url.Action("OrderConfirmation", "Order")'"/>
         </div>
     </form>
 </div>

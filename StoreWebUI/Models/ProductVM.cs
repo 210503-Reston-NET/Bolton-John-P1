@@ -1,6 +1,6 @@
-﻿using StoreModels;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using StoreModels;
 
 namespace StoreWebUI.Models
 {
@@ -16,10 +16,7 @@ namespace StoreWebUI.Models
 
         public ProductVM()
         {
-
         }
-
-
 
         public int ProductID { get; set; }
 
@@ -27,10 +24,8 @@ namespace StoreWebUI.Models
         [DisplayName("Product Name")]
         public string ItemName { get; set; }
 
-        [Required]
-        public double Price { get; set; }
+        [Required] public double Price { get; set; }
 
-        [Required]
-        public string Description { get; set; }
+        [Required] public string Description { get; set; }
     }
 }

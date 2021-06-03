@@ -1,13 +1,11 @@
-﻿using StoreModels;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using StoreModels;
 
 namespace StoreWebUI.Models
 {
-
     public class LocationVM
     {
-
         public LocationVM(Location location)
         {
             LocationID = location.LocationID;
@@ -21,21 +19,16 @@ namespace StoreWebUI.Models
         {
         }
 
-
         public int LocationID { get; set; }
 
-        [Required]
-        public string Address { get; set; }
+        [Required] public string Address { get; set; }
 
-        [Required]
-        public string City { get; set; }
+        [Required] public string City { get; set; }
 
         [Required]
         [DisplayName("State or Province")]
         public string State { get; set; }
 
-        [Required]
-        [DisplayName("Store Name")]
-        public string StoreName { get; set; }
+        [Required] [DisplayName("Store Name")] public string StoreName { get; set; }
     }
 }

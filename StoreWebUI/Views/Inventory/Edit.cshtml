@@ -1,20 +1,19 @@
-
-@model IEnumerable<StoreWebUI.Models.InventoryVM>
-@{int i = 0; }
+@model IEnumerable<InventoryVM>
+@{ var i = 0; }
 @{ ViewData["Title"] = "Edit"; }
 
 <h1>Edit Store Inventory</h1>
 
 <h4>Inventory</h4>
-<hr />
+<hr/>
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Edit">
             @if (Model != null)
             {
-                foreach (InventoryVM item in Model)
+                foreach (var item in Model)
                 {
-                    string itemName = "itemName" + i;
+                    var itemName = "itemName" + i;
                     <div class="form-group">
                         <label class="control-label">@ViewData[itemName].ToString() Current: @item.Quantity</label>
                         <input name="@ViewData[itemName]" class="form-control" id="@ViewData[itemName]"/>
@@ -24,7 +23,7 @@
                 }
             }
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Save" class="btn btn-primary"/>
             </div>
         </form>
     </div>
@@ -35,5 +34,5 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
 }

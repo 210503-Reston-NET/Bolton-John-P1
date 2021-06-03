@@ -1,19 +1,19 @@
+using System.Collections.Generic;
+using System.Linq;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using StoreBL;
 using StoreModels;
 using StoreWebUI.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace StoreWebUI.Controllers
 {
     public class InventoryController : Controller
     {
         public IInventoryBL _inventoryBL;
-        public IProductBL _productBL;
         public ILocationBL _locationBL;
+        public IProductBL _productBL;
+
         public InventoryController(IInventoryBL inventoryBL, ILocationBL locationBL, IProductBL productBL)
         {
             _inventoryBL = inventoryBL;
@@ -23,16 +23,17 @@ namespace StoreWebUI.Controllers
 
         private void IDToNameConverter()
         {
-            List<Location> locations = _locationBL.GetAllLocations();
-            List<Product> products = _productBL.GetAllProducts();
-            foreach (Location location in locations)
+            var locations = _locationBL.GetAllLocations();
+            var products = _productBL.GetAllProducts();
+            foreach (var location in locations)
             {
-                string propName = "location" + location.LocationID.ToString();
+                var propName = "location" + location.LocationID;
                 ViewData.Add(propName, location.StoreName);
             }
-            foreach (Product item in products)
+
+            foreach (var item in products)
             {
-                string propName = "product" + item.ProductID.ToString();
+                var propName = "product" + item.ProductID;
                 ViewData.Add(propName, item.ItemName);
             }
         }
@@ -54,19 +55,13 @@ namespace StoreWebUI.Controllers
         // GET: Inventory/Create
         public ActionResult Create()
         {
-            List<Location> locations = _locationBL.GetAllLocations();
-            List<Product> products = _productBL.GetAllProducts();
-            List<string> storeNames = new List<string>();
-            List<string> itemNames = new List<string>();
-            foreach (Location location in locations)
-            {
-                storeNames.Add(location.StoreName);
-            }
+            var locations = _locationBL.GetAllLocations();
+            var products = _productBL.GetAllProducts();
+            var storeNames = new List<string>();
+            var itemNames = new List<string>();
+            foreach (var location in locations) storeNames.Add(location.StoreName);
             ViewData.Add("locations", storeNames);
-            foreach (Product item in products)
-            {
-                itemNames.Add(item.ItemName);
-            }
+            foreach (var item in products) itemNames.Add(item.ItemName);
             ViewData.Add("products", itemNames);
 
             return View();
@@ -79,31 +74,26 @@ namespace StoreWebUI.Controllers
         {
             try
             {
-                List<Location> locations = _locationBL.GetAllLocations();
-                List<Product> products = _productBL.GetAllProducts();
-                List<string> storeNames = new List<string>();
-                List<string> itemNames = new List<string>();
-                foreach (Location location in locations)
-                {
-                    storeNames.Add(location.StoreName);
-                }
+                var locations = _locationBL.GetAllLocations();
+                var products = _productBL.GetAllProducts();
+                var storeNames = new List<string>();
+                var itemNames = new List<string>();
+                foreach (var location in locations) storeNames.Add(location.StoreName);
                 ViewData.Add("locations", storeNames);
-                foreach (Product item in products)
-                {
-                    itemNames.Add(item.ItemName);
-                }
+                foreach (var item in products) itemNames.Add(item.ItemName);
                 ViewData.Add("products", itemNames);
                 if (ModelState.IsValid)
                 {
                     _inventoryBL.AddInventory(new Inventory
-                    {
-                        LocationID = inventoryVM.LocationID,
-                        ProductID = inventoryVM.ProductID,
-                        Quantity = inventoryVM.Quantity
-                    }
-                       );
+                        {
+                            LocationID = inventoryVM.LocationID,
+                            ProductID = inventoryVM.ProductID,
+                            Quantity = inventoryVM.Quantity
+                        }
+                    );
                     return RedirectToAction(nameof(Index));
                 }
+
                 return View(inventoryVM);
             }
             catch
@@ -118,16 +108,19 @@ namespace StoreWebUI.Controllers
             IDToNameConverter();
             try
             {
-                int i = 0;
-                List<Product> products = _productBL.GetAllProducts();
-                List<InventoryVM> storeInventory = _inventoryBL.GetStoreInventoryByLocation(Int32.Parse(TempData["locationID"].ToString())).Select(inven => new InventoryVM(inven)).ToList();
-                foreach (Product product in products)
+                var i = 0;
+                var products = _productBL.GetAllProducts();
+                var storeInventory = _inventoryBL
+                    .GetStoreInventoryByLocation(int.Parse(TempData["locationID"].ToString()))
+                    .Select(inven => new InventoryVM(inven)).ToList();
+                foreach (var product in products)
                 {
-                    string itemName = "itemName" + i;
+                    var itemName = "itemName" + i;
                     ViewData.Add(itemName, product.ItemName);
                     i++;
                 }
-                string locationId = TempData["locationID"].ToString();
+
+                var locationId = TempData["locationID"].ToString();
                 TempData["locationID"] = locationId;
                 return View(storeInventory);
             }
@@ -142,22 +135,21 @@ namespace StoreWebUI.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(InventoryVM inventoryVM, int id, IFormCollection collection)
         {
-            int i = 0;
+            var i = 0;
             try
             {
-                List<Inventory> editInventory = _inventoryBL.GetStoreInventoryByLocation(Int32.Parse(TempData["locationID"].ToString()));
-                List<Product> products = _productBL.GetAllProducts();
-                List<string> itemNames = new List<string>();
-                foreach (Product item in products)
+                var editInventory =
+                    _inventoryBL.GetStoreInventoryByLocation(int.Parse(TempData["locationID"].ToString()));
+                var products = _productBL.GetAllProducts();
+                var itemNames = new List<string>();
+                foreach (var item in products) itemNames.Add(item.ItemName);
+                foreach (var inventory in editInventory)
                 {
-                    itemNames.Add(item.ItemName);
-                }
-                foreach (Inventory inventory in editInventory)
-                {
-                    inventory.Quantity = Int32.Parse(collection[itemNames[i]]);
+                    inventory.Quantity = int.Parse(collection[itemNames[i]]);
                     _inventoryBL.EditInventory(inventory);
                     i++;
                 }
+
                 return RedirectToAction("Index", "Location");
             }
             catch
@@ -171,7 +163,5 @@ namespace StoreWebUI.Controllers
         {
             return View();
         }
-
-
     }
 }

@@ -1,4 +1,5 @@
-@model IEnumerable<StoreWebUI.Models.ProductVM>
+@using Microsoft.AspNetCore.Mvc.Rendering
+@model IEnumerable<ProductVM>
 
 @{
     ViewData["Title"] = "Index";
@@ -11,21 +12,22 @@
 </p>
 <table class="table">
     <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.ItemName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Price)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th></th>
-        </tr>
+    <tr>
+        <th>
+            @HtmlHelperDisplayNameExtensions.DisplayNameFor(Html, model => model.ItemName)
+        </th>
+        <th>
+            @HtmlHelperDisplayNameExtensions.DisplayNameFor(Html, model => model.Price)
+        </th>
+        <th>
+            @HtmlHelperDisplayNameExtensions.DisplayNameFor(Html, model => model.Description)
+        </th>
+        <th></th>
+    </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+    @foreach (var item in Model)
+    {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.ItemName)
@@ -37,10 +39,10 @@
                 @Html.DisplayFor(modelItem => item.Description)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new {  id=item.ProductID }) |
-                @Html.ActionLink("Delete", "Delete", new { id=item.ProductID })
+                @Html.ActionLink("Edit", "Edit", new {id = item.ProductID}) |
+                @Html.ActionLink("Delete", "Delete", new {id = item.ProductID})
             </td>
         </tr>
-}
+    }
     </tbody>
 </table>

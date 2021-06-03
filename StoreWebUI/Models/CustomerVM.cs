@@ -1,18 +1,16 @@
-﻿using StoreModels;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using StoreModels;
 
 namespace StoreWebUI.Models
 {
     public class CustomerVM
     {
         /// <summary>
-		/// Customer View Model
-		/// </summary>
+        ///     Customer View Model
+        /// </summary>
         public CustomerVM()
         {
-
-
         }
 
         public CustomerVM(Customer customer)
@@ -24,29 +22,16 @@ namespace StoreWebUI.Models
             Email = customer.Email;
         }
 
-
         public int CustomerID { get; set; }
 
-        [Required]
-        [DisplayName("First Name")]
-        public string FirstName { get; set; }
+        [Required] [DisplayName("First Name")] public string FirstName { get; set; }
 
-
-        [Required]
-        [DisplayName("Last Name")]
-        public string LastName { get; set; }
-
-
-
+        [Required] [DisplayName("Last Name")] public string LastName { get; set; }
 
         [Required]
         [DisplayName("Phone Number")]
         public string PhoneNumber { get; set; }
 
-
-        [Required]
-        [DisplayName("E-Mail")]
-        public string Email { get; set; }
-
+        [Required] [DisplayName("E-Mail")] public string Email { get; set; }
     }
 }

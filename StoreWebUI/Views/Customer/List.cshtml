@@ -1,4 +1,5 @@
-@model IEnumerable<StoreWebUI.Models.CustomerVM>
+@using Microsoft.AspNetCore.Mvc.Rendering
+@model IEnumerable<CustomerVM>
 
 @{
     ViewData["Title"] = "Customer Search Result";
@@ -8,24 +9,25 @@
 
 <table class="table">
     <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.FirstName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.LastName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Email)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PhoneNumber)
-            </th>
-            <th></th>
-        </tr>
+    <tr>
+        <th>
+            @HtmlHelperDisplayNameExtensions.DisplayNameFor(Html, model => model.FirstName)
+        </th>
+        <th>
+            @HtmlHelperDisplayNameExtensions.DisplayNameFor(Html, model => model.LastName)
+        </th>
+        <th>
+            @HtmlHelperDisplayNameExtensions.DisplayNameFor(Html, model => model.Email)
+        </th>
+        <th>
+            @HtmlHelperDisplayNameExtensions.DisplayNameFor(Html, model => model.PhoneNumber)
+        </th>
+        <th></th>
+    </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+    @foreach (var item in Model)
+    {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.FirstName)
@@ -37,14 +39,14 @@
                 @Html.DisplayFor(modelItem => item.Email)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.PhoneNumber)
+            @Html.DisplayFor(modelItem => item.PhoneNumber)
 
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id=item.CustomerID }) |
-                @Html.ActionLink("Delete", "Delete", new { id=item.CustomerID }) |
-                @Html.ActionLink("View Orders", "ViewOrders", new { id=item.CustomerID })
+                @Html.ActionLink("Edit", "Edit", new {id = item.CustomerID}) |
+                @Html.ActionLink("Delete", "Delete", new {id = item.CustomerID}) |
+                @Html.ActionLink("View Orders", "ViewOrders", new {id = item.CustomerID})
             </td>
         </tr>
-}
+    }
     </tbody>
 </table>

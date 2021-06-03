@@ -1,6 +1,7 @@
-﻿using StoreModels;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using StoreModels;
+
 namespace StoreWebUI.Models
 {
     public class InventoryVM
@@ -17,16 +18,12 @@ namespace StoreWebUI.Models
             Quantity = inventory.Quantity;
         }
 
-
         public int InventoryID { get; set; }
 
-        [DisplayName("Store Location")]
-        public int LocationID { get; set; }
+        [DisplayName("Store Location")] public int LocationID { get; set; }
 
-        [DisplayName("Product")]
-        public int ProductID { get; set; }
+        [DisplayName("Product")] public int ProductID { get; set; }
 
-        [Required]
-        public int Quantity { get; set; }
+        [Required] public int Quantity { get; set; }
     }
 }

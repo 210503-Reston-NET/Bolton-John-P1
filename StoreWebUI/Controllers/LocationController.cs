@@ -1,24 +1,24 @@
+using System.Collections.Generic;
+using System.Linq;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
 using StoreBL;
 using StoreModels;
 using StoreWebUI.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace StoreWebUI.Controllers
 {
     public class LocationController : Controller
     {
-        private ILocationBL _locationBL;
-        private IInventoryBL _inventoryBL;
-        private IProductBL _productBL;
-        private IOrderBL _orderBL;
-        private ICustomerBL _customerBL;
+        private readonly ICustomerBL _customerBL;
+        private readonly IInventoryBL _inventoryBL;
+        private readonly ILocationBL _locationBL;
+        private readonly IOrderBL _orderBL;
+        private readonly IProductBL _productBL;
 
-        public LocationController(ILocationBL locationBL, IInventoryBL inventoryBL, IProductBL productBL, IOrderBL orderBL, ICustomerBL customerBL)
+        public LocationController(ILocationBL locationBL, IInventoryBL inventoryBL, IProductBL productBL,
+            IOrderBL orderBL, ICustomerBL customerBL)
         {
             _locationBL = locationBL;
             _inventoryBL = inventoryBL;
@@ -62,21 +62,19 @@ namespace StoreWebUI.Controllers
                         Address = locationVM.Address
                     });
 
-                    List<Product> products = _productBL.GetAllProducts();
-                    Location location = _locationBL.GetLocation(locationVM.StoreName);
-                    foreach (Product item in products)
-                    {
+                    var products = _productBL.GetAllProducts();
+                    var location = _locationBL.GetLocation(locationVM.StoreName);
+                    foreach (var item in products)
                         _inventoryBL.AddInventory(new Inventory
                         {
                             LocationID = location.LocationID,
                             ProductID = item.ProductID,
                             Quantity = 0
                         });
-                    }
-
 
                     return RedirectToAction(nameof(Index));
                 }
+
                 return View();
             }
             catch
@@ -100,7 +98,7 @@ namespace StoreWebUI.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    Location editLocation = _locationBL.GetLocationById(id);
+                    var editLocation = _locationBL.GetLocationById(id);
                     editLocation.StoreName = locationVM.StoreName;
                     editLocation.City = locationVM.City;
                     editLocation.State = locationVM.State;
@@ -108,8 +106,8 @@ namespace StoreWebUI.Controllers
                     _locationBL.EditLocation(editLocation);
                     return RedirectToAction(nameof(Index));
                 }
-                return View();
 
+                return View();
             }
             catch
             {
@@ -151,7 +149,7 @@ namespace StoreWebUI.Controllers
         {
             try
             {
-                List<OrderVM> orders = _orderBL.GetLocationOrders(id).Select(ord => new OrderVM(ord)).ToList();
+                var orders = _orderBL.GetLocationOrders(id).Select(ord => new OrderVM(ord)).ToList();
                 SetListSelectors(id);
                 return View(orders);
             }
@@ -166,12 +164,11 @@ namespace StoreWebUI.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult ViewOrders(int id, string sort)
         {
-            if (ModelState.IsValid && !String.IsNullOrWhiteSpace(sort))
-            {
+            if (ModelState.IsValid && !string.IsNullOrWhiteSpace(sort))
                 try
                 {
-                    List<OrderVM> sortedOrders = new List<OrderVM>();
-                    List<OrderVM> orders = _orderBL.GetLocationOrders(id).Select(ord => new OrderVM(ord)).ToList();
+                    var sortedOrders = new List<OrderVM>();
+                    var orders = _orderBL.GetLocationOrders(id).Select(ord => new OrderVM(ord)).ToList();
                     switch (sort)
                     {
                         case "Sort By Cost":
@@ -191,30 +188,29 @@ namespace StoreWebUI.Controllers
                             sortedOrders = orders.OrderBy(ord => ord.OrderDate).ToList();
                             SetListSelectors(id);
                             return View(sortedOrders);
-
                     }
                 }
                 catch
                 {
                     return View();
                 }
-            }
+
             return View();
         }
 
         private void SetListSelectors(int id)
         {
-            int i = 0;
-            List<OrderVM> orders = _orderBL.GetLocationOrders(id).Select(ord => new OrderVM(ord)).ToList();
-            foreach (OrderVM order in orders)
+            var i = 0;
+            var orders = _orderBL.GetLocationOrders(id).Select(ord => new OrderVM(ord)).ToList();
+            foreach (var order in orders)
             {
-                string customerSelector = "customer" + i;
-                Customer customer = _customerBL.SearchCustomer(order.CustomerID);
-                string customerName = customer.FirstName + " " + customer.LastName;
+                var customerSelector = "customer" + i;
+                var customer = _customerBL.SearchCustomer(order.CustomerID);
+                var customerName = customer.FirstName + " " + customer.LastName;
                 ViewData.Add(customerSelector, customerName);
 
-                string storeSelector = "location" + i;
-                Location location = _locationBL.GetLocationById(order.LocationID);
+                var storeSelector = "location" + i;
+                var location = _locationBL.GetLocationById(order.LocationID);
                 ViewData.Add(storeSelector, location.StoreName);
 
                 i++;

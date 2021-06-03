@@ -1,4 +1,5 @@
-@model IEnumerable<StoreWebUI.Models.InventoryVM>
+@using Microsoft.AspNetCore.Mvc.Rendering
+@model IEnumerable<InventoryVM>
 
 @{ ViewData["Title"] = "Index"; }
 
@@ -9,25 +10,25 @@
 </p>
 <table class="table">
     <thead>
-        <tr>
-            <th>
-                Store Location
-            </th>
-            <th>
-                Product
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Quantity)
-            </th>
-            <th></th>
-        </tr>
+    <tr>
+        <th>
+            Store Location
+        </th>
+        <th>
+            Product
+        </th>
+        <th>
+            @HtmlHelperDisplayNameExtensions.DisplayNameFor(Html, model => model.Quantity)
+        </th>
+        <th></th>
+    </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
-        {
+    @foreach (var item in Model)
+    {
         <tr>
-            @{ string locationID = "location" + item.LocationID.ToString();}
-            @{ string productID = "product" + item.ProductID.ToString();}
+            @{ var locationID = "location" + item.LocationID; }
+            @{ var productID = "product" + item.ProductID; }
             <td>
                 @ViewData[locationID]
             </td>
@@ -38,8 +39,9 @@
                 @Html.DisplayFor(modelItem => item.Quantity)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.InventoryID })
+                @Html.ActionLink("Edit", "Edit", new {id = item.InventoryID})
             </td>
-        </tr>}
+        </tr>
+    }
     </tbody>
 </table>

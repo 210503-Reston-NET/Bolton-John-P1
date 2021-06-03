@@ -1,12 +1,12 @@
-﻿using StoreModels;
-using System.ComponentModel;
+﻿using System.ComponentModel;
+using StoreModels;
+
 namespace StoreWebUI.Models
 {
     public class OrderVM
     {
         public OrderVM()
         {
-
         }
 
         public OrderVM(Order order)
@@ -18,20 +18,14 @@ namespace StoreWebUI.Models
             OrderDate = order.OrderDate;
         }
 
+        [DisplayName("Order ID")] public int OrderID { get; set; }
 
-        [DisplayName("Order ID")]
-        public int OrderID { get; set; }
+        [DisplayName("Customer")] public int CustomerID { get; set; }
 
-        [DisplayName("Customer")]
-        public int CustomerID { get; set; }
-
-
-        [DisplayName("Store Name")]
-        public int LocationID { get; set; }
+        [DisplayName("Store Name")] public int LocationID { get; set; }
 
         public double Total { get; set; }
 
-        [DisplayName("Order Date")]
-        public string OrderDate { get; set; }
+        [DisplayName("Order Date")] public string OrderDate { get; set; }
     }
 }

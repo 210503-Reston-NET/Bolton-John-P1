@@ -1,21 +1,18 @@
+using System.Collections.Generic;
+using System.Linq;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using StoreBL;
 using StoreModels;
 using StoreWebUI.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace StoreWebUI.Controllers
 {
     public class CustomerController : Controller
     {
-
-        private ICustomerBL _customerBL;
-        private IOrderBL _orderBL;
-        private ILocationBL _locationBL;
-
+        private readonly ICustomerBL _customerBL;
+        private readonly ILocationBL _locationBL;
+        private readonly IOrderBL _orderBL;
 
         public CustomerController(ICustomerBL customerBL, IOrderBL orderBL, ILocationBL locationBL)
         {
@@ -24,15 +21,14 @@ namespace StoreWebUI.Controllers
             _locationBL = locationBL;
         }
 
-
-
         public ActionResult List(CustomerVM customerVM)
         {
-            List<CustomerVM> customerList = new List<CustomerVM>();
+            var customerList = new List<CustomerVM>();
             try
             {
-                Customer customerModel = _customerBL.SearchCustomer(TempData["firstName"].ToString(), TempData["lastName"].ToString());
-                CustomerVM customer = new CustomerVM(customerModel);
+                var customerModel =
+                    _customerBL.SearchCustomer(TempData["firstName"].ToString(), TempData["lastName"].ToString());
+                var customer = new CustomerVM(customerModel);
                 customerList.Add(customer);
                 return View(customerList);
             }
@@ -40,15 +36,12 @@ namespace StoreWebUI.Controllers
             {
                 return RedirectToAction(nameof(Index));
             }
-
         }
-
 
         public ActionResult Index()
         {
             return View();
         }
-
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -62,6 +55,7 @@ namespace StoreWebUI.Controllers
                     TempData["lastName"] = lastName;
                     return RedirectToAction(nameof(List));
                 }
+
                 return View();
             }
             catch
@@ -70,19 +64,15 @@ namespace StoreWebUI.Controllers
             }
         }
 
-
-
         public ActionResult Details(int id)
         {
             return View();
         }
 
-
         public ActionResult Create()
         {
             return View();
         }
-
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -93,17 +83,18 @@ namespace StoreWebUI.Controllers
                 if (ModelState.IsValid)
                 {
                     _customerBL.AddCustomer(new Customer
-                    {
-                        FirstName = customerVM.FirstName,
-                        LastName = customerVM.LastName,
-                        PhoneNumber = customerVM.PhoneNumber,
-                        Email = customerVM.Email
-                    }
-                        );
+                        {
+                            FirstName = customerVM.FirstName,
+                            LastName = customerVM.LastName,
+                            PhoneNumber = customerVM.PhoneNumber,
+                            Email = customerVM.Email
+                        }
+                    );
                     TempData["firstName"] = customerVM.FirstName;
                     TempData["lastName"] = customerVM.LastName;
                     return RedirectToAction(nameof(List));
                 }
+
                 return View();
             }
             catch
@@ -112,12 +103,10 @@ namespace StoreWebUI.Controllers
             }
         }
 
-
         public ActionResult Edit(int id)
         {
             return View(new CustomerVM(_customerBL.SearchCustomer(id)));
         }
-
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -127,7 +116,7 @@ namespace StoreWebUI.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    Customer editCustomer = _customerBL.SearchCustomer(id);
+                    var editCustomer = _customerBL.SearchCustomer(id);
                     editCustomer.FirstName = customerVM.FirstName;
                     editCustomer.LastName = customerVM.LastName;
                     editCustomer.Email = customerVM.Email;
@@ -137,6 +126,7 @@ namespace StoreWebUI.Controllers
                     TempData["lastName"] = customerVM.LastName;
                     return RedirectToAction(nameof(List));
                 }
+
                 return View();
             }
             catch
@@ -145,12 +135,10 @@ namespace StoreWebUI.Controllers
             }
         }
 
-
         public ActionResult Delete(int id)
         {
             return View(new CustomerVM(_customerBL.SearchCustomer(id)));
         }
-
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -167,26 +155,26 @@ namespace StoreWebUI.Controllers
             }
         }
 
-
         public ActionResult ViewOrders(int id)
         {
             try
             {
-                int i = 0;
-                List<OrderVM> orders = _orderBL.GetCustomerOrders(id).Select(ord => new OrderVM(ord)).ToList();
-                foreach (OrderVM order in orders)
+                var i = 0;
+                var orders = _orderBL.GetCustomerOrders(id).Select(ord => new OrderVM(ord)).ToList();
+                foreach (var order in orders)
                 {
-                    string customerSelector = "customer" + i;
-                    Customer customer = _customerBL.SearchCustomer(order.CustomerID);
-                    string customerName = customer.FirstName + " " + customer.LastName;
+                    var customerSelector = "customer" + i;
+                    var customer = _customerBL.SearchCustomer(order.CustomerID);
+                    var customerName = customer.FirstName + " " + customer.LastName;
                     ViewData.Add(customerSelector, customerName);
 
-                    string storeSelector = "location" + i;
-                    Location location = _locationBL.GetLocationById(order.LocationID);
+                    var storeSelector = "location" + i;
+                    var location = _locationBL.GetLocationById(order.LocationID);
                     ViewData.Add(storeSelector, location.StoreName);
 
                     i++;
                 }
+
                 return View(orders);
             }
             catch
@@ -195,17 +183,15 @@ namespace StoreWebUI.Controllers
             }
         }
 
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult ViewOrders(int id, string sort)
         {
-            if (ModelState.IsValid && !String.IsNullOrWhiteSpace(sort))
-            {
+            if (ModelState.IsValid && !string.IsNullOrWhiteSpace(sort))
                 try
                 {
-                    List<OrderVM> sortedOrders = new List<OrderVM>();
-                    List<OrderVM> orders = _orderBL.GetCustomerOrders(id).Select(ord => new OrderVM(ord)).ToList();
+                    var sortedOrders = new List<OrderVM>();
+                    var orders = _orderBL.GetCustomerOrders(id).Select(ord => new OrderVM(ord)).ToList();
                     switch (sort)
                     {
                         case "Sort By Cost":
@@ -222,30 +208,29 @@ namespace StoreWebUI.Controllers
                             sortedOrders = orders.OrderBy(ord => ord.OrderDate).ToList();
                             SetListSelectors(id);
                             return View(sortedOrders);
-
                     }
                 }
                 catch
                 {
                     return View();
                 }
-            }
+
             return View();
         }
 
         private void SetListSelectors(int id)
         {
-            int i = 0;
-            List<OrderVM> orders = _orderBL.GetCustomerOrders(id).Select(ord => new OrderVM(ord)).ToList();
-            foreach (OrderVM order in orders)
+            var i = 0;
+            var orders = _orderBL.GetCustomerOrders(id).Select(ord => new OrderVM(ord)).ToList();
+            foreach (var order in orders)
             {
-                string customerSelector = "customer" + i;
-                Customer customer = _customerBL.SearchCustomer(order.CustomerID);
-                string customerName = customer.FirstName + " " + customer.LastName;
+                var customerSelector = "customer" + i;
+                var customer = _customerBL.SearchCustomer(order.CustomerID);
+                var customerName = customer.FirstName + " " + customer.LastName;
                 ViewData.Add(customerSelector, customerName);
 
-                string storeSelector = "location" + i;
-                Location location = _locationBL.GetLocationById(order.LocationID);
+                var storeSelector = "location" + i;
+                var location = _locationBL.GetLocationById(order.LocationID);
                 ViewData.Add(storeSelector, location.StoreName);
 
                 i++;
