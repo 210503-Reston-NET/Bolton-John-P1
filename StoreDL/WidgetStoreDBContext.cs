@@ -7,12 +7,10 @@ namespace StoreDL
     {
         public WidgetStoreDBContext(DbContextOptions options) : base(options)
         {
-
         }
 
         protected WidgetStoreDBContext()
         {
-
         }
 
         public DbSet<LineItem> LineItems { get; set; }
