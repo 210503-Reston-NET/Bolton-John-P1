@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+
 namespace StoreModels
 {
     /// <summary>
@@ -16,7 +17,6 @@ namespace StoreModels
 
         public Customer()
         {
-
         }
 
         public Customer(int customerId, string firstName, string lastName, string phoneNumber, string email) : this(firstName, lastName, phoneNumber, email)
@@ -29,7 +29,6 @@ namespace StoreModels
         public string Email { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-
 
         public List<Order> Orders { get; set; }
 

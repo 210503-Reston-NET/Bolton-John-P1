@@ -2,7 +2,6 @@ using System.Collections.Generic;
 
 namespace StoreModels
 {
-
     /// <summary>
     /// Product Model
     /// </summary>
@@ -17,7 +16,6 @@ namespace StoreModels
 
         public Product()
         {
-
         }
 
         public Product(int productId, string itemName, double price, string description) : this(itemName, price, description)

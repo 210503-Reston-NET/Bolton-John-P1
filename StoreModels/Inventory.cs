@@ -1,9 +1,9 @@
 using System;
+
 namespace StoreModels
 {
     public class Inventory
     {
-
         public Inventory(int locationId, int productId, int quantity)
         {
             this.LocationID = locationId;
@@ -13,7 +13,6 @@ namespace StoreModels
 
         public Inventory()
         {
-
         }
 
         public Inventory(int inventoryId, int locationId, int productId, int quantity) : this(locationId, productId, quantity)
@@ -24,7 +23,9 @@ namespace StoreModels
         [Serializable]
         public class NotEnoughInventoryException : Exception
         {
-            public NotEnoughInventoryException(string message) : base(message) { }
+            public NotEnoughInventoryException(string message) : base(message)
+            {
+            }
         }
 
         public int InventoryID { get; set; }

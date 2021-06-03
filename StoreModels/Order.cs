@@ -17,14 +17,12 @@ namespace StoreModels
 
         public Order()
         {
-
         }
 
         public Order(int orderId, int locationId, int customerId, double total, string orderDate) : this(locationId, customerId, total, orderDate)
         {
             this.OrderID = orderId;
         }
-
 
         public int OrderID { get; set; }
         public string OrderDate { get; set; }

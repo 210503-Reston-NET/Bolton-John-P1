@@ -1,6 +1,5 @@
 namespace StoreModels
 {
-
     public class LineItem
     {
         public LineItem(int productId, int quantity, int orderID)
@@ -12,7 +11,6 @@ namespace StoreModels
 
         public LineItem()
         {
-
         }
 
         public LineItem(int lineItemId, int productId, int quantity, int orderID) : this(productId, quantity, orderID)
@@ -24,8 +22,6 @@ namespace StoreModels
         public int LineItemID { get; set; }
         public int ProductID { get; set; }
         public int OrderID { get; set; }
-
-
 
         public override string ToString()
         {

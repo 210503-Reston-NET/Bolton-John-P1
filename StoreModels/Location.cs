@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+
 namespace StoreModels
 {
     /// <summary>
@@ -16,13 +17,13 @@ namespace StoreModels
 
         public Location()
         {
-
         }
 
         public Location(int locationId, string storeName, string address, string city, string state) : this(storeName, address, city, state)
         {
             this.LocationID = locationId;
         }
+
         public string City { get; set; }
         public string State { get; set; }
         public int LocationID { get; set; }
@@ -30,7 +31,6 @@ namespace StoreModels
         public string StoreName { get; set; }
         public List<Order> Orders { get; set; }
         public List<Inventory> Inventories { get; set; }
-
 
         public override string ToString()
         {
