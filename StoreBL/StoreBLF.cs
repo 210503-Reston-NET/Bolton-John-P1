@@ -6,10 +6,10 @@ using System.Linq;
 
 namespace StoreBL
 {
-
     public class CustomerBL : ICustomerBL
     {
         private IRepository _repo;
+
         public CustomerBL(IRepository repo)
         {
             _repo = repo;
@@ -93,6 +93,7 @@ namespace StoreBL
         private IRepository _repo;
         private ILocationBL _locationBL;
         private IProductBL _productBL;
+
         public InventoryBL(IRepository repo, ILocationBL locationBL, IProductBL productBL)
         {
             _repo = repo;
@@ -222,14 +223,16 @@ namespace StoreBL
             return updatedInventory;
         }
     }
+
     public class LineItemBL : ILineItemBL
     {
-
         private IRepository _repo;
+
         public LineItemBL(IRepository repo)
         {
             _repo = repo;
         }
+
         public LineItem AddLineItem(LineItem lineItem, Product product)
         {
             return _repo.AddLineItem(lineItem, product);
@@ -270,15 +273,14 @@ namespace StoreBL
                 {
                     return requestedLineItems;
                 }
-
             }
         }
     }
 
     public class LocationBL : ILocationBL
     {
-
         private IRepository _repo;
+
         public LocationBL(IRepository repo)
         {
             _repo = repo;
@@ -317,6 +319,7 @@ namespace StoreBL
                 throw new Exception("No matching locations found");
             }
         }
+
         public Location GetLocation(string name)
         {
             List<Location> locations = GetAllLocations();
@@ -352,19 +355,19 @@ namespace StoreBL
 
         public Location EditLocation(Location location)
         {
-
             return _repo.EditLocation(location);
         }
     }
 
     public class OrderBL : IOrderBL
     {
-
         private IRepository _repo;
+
         public OrderBL(IRepository repo)
         {
             _repo = repo;
         }
+
         public Order AddOrder(Order order, Location location, Customer customer)
         {
             return _repo.AddOrder(order, location, customer);
@@ -440,13 +443,16 @@ namespace StoreBL
             return _repo.DeleteOrder(order);
         }
     }
+
     public class ProductBL : IProductBL
     {
         private IRepository _repo;
+
         public ProductBL(IRepository repo)
         {
             _repo = repo;
         }
+
         public Product AddProduct(Product product)
         {
             if (_repo.GetProduct(product) != null)
@@ -513,7 +519,4 @@ namespace StoreBL
             return total;
         }
     }
-
-
-
 }
